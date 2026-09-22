@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espacio Cultural</title>
+  <style>
+    :root {
+      --bg: #FAF7F2;
+      --card: #FFFFFF;
+      --text: #2C221E;
+      --subtext: #7A6E65;
+      --accent: #E0BBE4;
+    }
+
+    body.morning {
+      --bg: #FAF7F2;
+      --card: #FFFFFF;
+      --text: #2C221E;
+      --subtext: #7A6E65;
+    }
+
+    body.afternoon {
+      --bg: #FBF0F3;
+      --card: #FFFFFF;
+      --text: #2D1F2D;
+      --subtext: #8A7089;
+    }
+
+    body.night {
+      --bg: #0F172A;
+      --card: #1E293B;
+      --text: #F8FAFC;
+      --subtext: #94A3B8;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      transition: all 0.5s ease;
+    }
+
+    .container {
+      max-width: 450px;
+      width: 100%;
+    }
+
+    .header {
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: var(--subtext);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 8px 0 4px 0;
+    }
+
+    p {
+      color: var(--subtext);
+      margin: 0 0 16px 0;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .btn {
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .call-btn {
+      background: #64748B;
+      color: white;
+    }
+
+    .call-btn.unlocked {
+      background: #10B981;
+    }
+  </style>
+</head>
+<body class="morning">
+  <div class="container">
+    <div class="header">
+      <div class="badge" id="time-badge">El Amanecer 🌅</div>
+      <h1>Espacio Cultural</h1>
+      <p>Comunidad nativa & tutoría privada</p>
+    </div>
+
+    <div class="card">
+      <h3>Dinámica de Rol: Pedir Café</h3>
+      <p>Practica con tu pareja asignada y realiza correcciones en tiempo real.</p>
+      <p><strong>Progreso: <span id="progress">0</span>/3 retos</strong></p>
+      <button class="btn" onclick="completeChallenge()">Completar Reto Guiado</button>
+    </div>
+
+    <div class="card">
+      <h3>🔒 Videollamada Privada</h3>
+      <p id="call-status">Bloqueada por privacidad. Completa 3 dinámicas de rol con tu pareja.</p>
+      <button class="btn call-btn" id="call-btn" onclick="startCall()" disabled>Bloqueado (Faltan Retos)</button>
+    </div>
+  </div>
+
+  <script>
+    let challenges = 0;
+
+    // Cambiar tema según la hora
+    const hour = new Date().getHours();
+    if (hour >= 17 && hour < 20) {
+      document.body.className = "afternoon";
+      document.getElementById("time-badge").innerText = "El Atardecer 🌇";
+    } else if (hour >= 20 || hour < 6) {
+      document.body.className = "night";
+      document.getElementById("time-badge").innerText = "La Noche 🌌";
+    }
+
+    function completeChallenge() {
+      if (challenges < 3) {
+        challenges++;
+        document.getElementById("progress").innerText = challenges;
+        if (challenges === 3) {
+          document.getElementById("call-status").innerText = "¡Retos completados! Ambos pueden unirse a la sala.";
+          const btn = document.getElementById("call-btn");
+          btn.innerText = "Iniciar Videollamada Dual";
+          btn.classList.add("unlocked");
+          btn.disabled = false;
+          alert("🎉 ¡Felicidades! Has desbloqueado las videollamadas.");
+        }
+      }
+    }
+
+    function startCall() {
+      alert("Conectando videollamada privada...");
+    }
+  </script>
+</body>
+</html>
